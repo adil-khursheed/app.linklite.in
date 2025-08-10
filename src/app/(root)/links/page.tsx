@@ -5,6 +5,12 @@ import UrlShortenerForm from "./_components/UrlShortenerForm";
 import { shortenLink } from "./_actions/shortenLink";
 import Description from "./_components/Description";
 import DialogWrapper from "./_components/DialogWrapper";
+import type { Metadata } from "next";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 const Page = async ({
   searchParams,
@@ -22,10 +28,13 @@ const Page = async ({
   }
 
   return (
-    <section className="px-3 py-5 sm:p-5 max-w-4xl w-full mx-auto">
-      <h2 className="text-xl sm:text-3xl font-bold">
-        Bridge For Your Connections
-      </h2>
+    <section className="px-3 py-5 sm:p-5 bg-white rounded-md h-[calc(100vh-16px)] shadow border border-p-primary-light">
+      <div className="flex items-center gap-4">
+        <SidebarTrigger className="cursor-pointer md:hidden" />
+        <h2 className="text-xl sm:text-3xl font-bold">
+          Bridge For Your Connections
+        </h2>
+      </div>
 
       <Card className="mt-8 bg-p-primary-light border-p-primary-light">
         <CardHeader>

@@ -84,7 +84,7 @@ const UrlShortenerForm = () => {
           <Button
             type="submit"
             disabled={loading}
-            className="h-12 w-full sm:w-1/5 cursor-pointer">
+            className="h-12 w-full sm:w-48 cursor-pointer">
             {loading ? (
               <Loader2Icon className="size-5 animate-spin" />
             ) : (

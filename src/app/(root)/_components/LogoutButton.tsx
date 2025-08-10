@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { googleLogout } from "@react-oauth/google";
 import { useAuthStore } from "@/store/auth";
+import { _config } from "@/lib/_config";
 
 const LogoutButton = () => {
   const [loading, setLoading] = React.useState(false);
@@ -27,7 +28,7 @@ const LogoutButton = () => {
       if (success) {
         googleLogout();
         logout();
-        router.replace("/");
+        router.replace(`${_config.frontend_url_1}`);
       }
     } catch (error) {
       console.log(error);

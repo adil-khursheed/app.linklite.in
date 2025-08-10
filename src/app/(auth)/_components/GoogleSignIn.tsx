@@ -31,9 +31,9 @@ const GoogleSignIn = ({ url }: { url: string | null }) => {
           setUser(user);
 
           if (url) {
-            router.replace(`/dashboard?url=${encodeURIComponent(url)}`);
+            router.replace(`/links?url=${encodeURIComponent(url)}`);
           } else {
-            router.replace("/dashboard");
+            router.replace("/links");
           }
 
           toast.success("Login successful");

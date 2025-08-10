@@ -2,7 +2,6 @@ import React from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "./_components/AppSidebar";
 import { cookies } from "next/headers";
-import Header from "./_components/Header";
 
 const Layout = async ({
   children,
@@ -14,12 +13,9 @@ const Layout = async ({
     cookieStore.get("_linklite_sidebar_state")?.value === "true";
 
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
+    <SidebarProvider defaultOpen={defaultOpen} className="p-2 bg-zinc-50">
       <AppSidebar />
-      <main className="flex-1">
-        <Header />
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
     </SidebarProvider>
   );
 };
