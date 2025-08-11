@@ -1,8 +1,14 @@
+"use client";
+
 import React from "react";
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
 } from "@/components/ui/sidebar";
 
@@ -11,8 +17,12 @@ import Link from "next/link";
 import { LinkIcon } from "lucide-react";
 import { colors } from "@/lib/constants";
 import UserButton from "./UserButton";
+import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/auth";
 
 const AppSidebar = () => {
+  const { user } = useAuthStore();
+
   return (
     <Sidebar className="mr-2 group-data-[side=left]:border-0">
       <div className="flex h-full">
@@ -30,13 +40,31 @@ const AppSidebar = () => {
             <UserButton />
           </div>
         </div>
-        <div className="flex-1 bg-p-primary-light rounded-md shadow border border-p-primary-light my-2">
+
+        <div className="flex-1 flex flex-col bg-p-primary-light rounded-md shadow border border-p-primary-light my-2">
           <SidebarContent>
             <SidebarHeader className="font-semibold text-base">
               Short Links
             </SidebarHeader>
             <AppSidebarMenu />
           </SidebarContent>
+
+          <SidebarFooter className="mt-auto">
+            <SidebarGroup className="px-0">
+              <SidebarGroupLabel className="px-0">Usage</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <div className="flex items-center justify-between text-xs border-b pb-2 mt-3 mb-4">
+                  <span className="flex items-center gap-1">
+                    <LinkIcon size={10} />
+                    Links
+                  </span>
+
+                  <span>0 of {user?.short_links_limit}</span>
+                </div>
+                <Button className="w-full">Upgrade Plan</Button>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarFooter>
         </div>
       </div>
     </Sidebar>
