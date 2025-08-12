@@ -42,8 +42,11 @@ const Page = async ({
         <CreateLinksButton />
       </div>
 
-      <div className="flex-1 flex items-center justify-center">
-        <EmptyList />
+      <div className="flex-1 flex items-center justify-center border rounded-sm">
+        <div className="flex flex-col items-center gap-4 w-full">
+          <EmptyList />
+          <CreateLinksButton />
+        </div>
       </div>
       {/* <Card className="mt-8 bg-p-primary-light border-p-primary-light">
         <CardHeader>

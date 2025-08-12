@@ -9,13 +9,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useCreateLinkDialog } from "@/contexts/createLinkDialogContext";
 
 const CreateLinksButton = () => {
+  const { open, setOpen } = useCreateLinkDialog();
+
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="cursor-pointer">Create Link</Button>
+          <Button className="cursor-pointer h-11">
+            Create Link{" "}
+            <span className="text-xs bg-muted-foreground text-neutral-300 px-1.5 py-1 rounded">
+              C
+            </span>
+          </Button>
         </DialogTrigger>
 
         <DialogContent>

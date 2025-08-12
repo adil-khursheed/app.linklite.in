@@ -18,8 +18,6 @@ export async function middleware(req: NextRequest) {
   const access_token = req.cookies.get("_linklite_access")?.value;
   const refresh_token = req.cookies.get("_linklite_refresh")?.value;
 
-  const response = NextResponse.next();
-
   if (!access_token && pathname === "/") {
     return NextResponse.redirect(new URL("/login", req.url));
   } else if (access_token && pathname === "/") {
@@ -41,6 +39,8 @@ export async function middleware(req: NextRequest) {
         access_expiry,
         refresh_expiry,
       } = res.data;
+
+      const response = NextResponse.next();
 
       // Update access token
       response.cookies.set("_linklite_access", accessToken, {
@@ -68,8 +68,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Check again if access token is missing after attempted refresh
-  const hasAccessToken =
-    access_token || response.cookies.get("_linklite_access")?.value;
+  const hasAccessToken = !!access_token;
 
   // ❌ If no access token and trying to access protected route → redirect
   if (!hasAccessToken && !isPublicPath) {
@@ -81,7 +80,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/links", req.url));
   }
 
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {
