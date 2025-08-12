@@ -48,19 +48,24 @@ axiosInstance.interceptors.response.use(
             }
           );
 
-          const { accessToken, refreshToken: newRefreshToken } = res.data;
+          const {
+            access_token: accessToken,
+            refresh_token,
+            access_expiry,
+            refresh_expiry,
+          } = res.data;
 
           (await cookies()).set("_linklite_access", accessToken, {
             httpOnly: true,
             sameSite: "strict",
             secure: true,
-            expires: new Date(Date.now() + 1000 * 60 * 60),
+            expires: new Date(access_expiry),
           });
-          (await cookies()).set("_linklite_refresh", newRefreshToken, {
+          (await cookies()).set("_linklite_refresh", refresh_token, {
             httpOnly: true,
             sameSite: "strict",
             secure: true,
-            expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+            expires: new Date(refresh_expiry),
           });
 
           axiosInstance.defaults.headers.common[

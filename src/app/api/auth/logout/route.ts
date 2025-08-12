@@ -1,5 +1,4 @@
 import axiosInstance from "@/axios/axios";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST() {
@@ -8,13 +7,15 @@ export async function POST() {
 
     const { success, message } = res.data;
 
-    (await cookies()).delete("_linklite_access");
-    (await cookies()).delete("_linklite_refresh");
-    (await cookies()).delete("_linklite_sidebar_state");
-    return NextResponse.json({
+    const response = NextResponse.json({
       success,
       message,
     });
+
+    response.cookies.delete("_linklite_access");
+    response.cookies.delete("_linklite_refresh");
+    response.cookies.delete("_linklite_sidebar_state");
+    return response;
   } catch (error) {
     console.log(error);
     return NextResponse.json({

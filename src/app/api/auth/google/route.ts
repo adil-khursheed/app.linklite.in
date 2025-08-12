@@ -15,7 +15,15 @@ export async function POST(req: NextRequest) {
       access_token,
     });
 
-    const { accessToken, refreshToken, user, message, success } = res.data;
+    const {
+      access_token: accessToken,
+      refresh_token,
+      access_expiry,
+      refresh_expiry,
+      user,
+      message,
+      success,
+    } = res.data;
 
     const response = NextResponse.json(
       {
@@ -32,13 +40,13 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       sameSite: "strict",
       secure: true,
-      expires: new Date(Date.now() + 1000 * 60 * 60),
+      expires: new Date(access_expiry),
     });
-    response.cookies.set("_linklite_refresh", refreshToken, {
+    response.cookies.set("_linklite_refresh", refresh_token, {
       httpOnly: true,
       sameSite: "strict",
       secure: true,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      expires: new Date(refresh_expiry),
     });
 
     return response;

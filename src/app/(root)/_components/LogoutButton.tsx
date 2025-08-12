@@ -28,7 +28,7 @@ const LogoutButton = () => {
       if (success) {
         googleLogout();
         logout();
-        router.replace(`${_config.frontend_url_1}`);
+        router.replace("/login");
       }
     } catch (error) {
       console.log(error);
