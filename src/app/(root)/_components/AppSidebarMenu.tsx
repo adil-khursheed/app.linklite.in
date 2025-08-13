@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { ForwardRefExoticComponent, RefAttributes } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -10,22 +10,21 @@ import {
 } from "@/components/ui/sidebar";
 
 import { cn } from "@/lib/utils";
+import { LucideProps } from "lucide-react";
 
-import { LinkIcon } from "lucide-react";
+interface ItemProps {
+  title: string;
+  url: string;
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
+}
 
-const items = [
-  {
-    title: "Links",
-    url: "/links",
-    icon: LinkIcon,
-  },
-];
-
-const AppSidebarMenu = () => {
+const AppSidebarMenu = ({ items }: { items: ItemProps[] }) => {
   const pathname = usePathname();
 
   return (
-    <SidebarMenu className={cn("gap-3")}>
+    <SidebarMenu className={cn("gap-2")}>
       {items.map((item) => (
         <SidebarMenuItem key={item.title} className="px-1">
           <SidebarMenuButton
@@ -34,13 +33,13 @@ const AppSidebarMenu = () => {
             <Link
               href={item.url}
               className={cn(
-                "flex items-center gap-2",
+                "flex items-center gap-2 text-sm",
                 pathname === item.url
                   ? "bg-s-secondary/10 text-s-secondary"
                   : ""
               )}>
               <item.icon />
-              <span className="text-sm font-medium">{item.title}</span>
+              <span>{item.title}</span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

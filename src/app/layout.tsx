@@ -3,7 +3,6 @@ import { Inter, DynaPuff } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { _config } from "@/lib/_config";
-import { CreateLinkDialogProvider } from "@/contexts/createLinkDialogContext";
 
 const interSans = Inter({
   variable: "--font-inter-sans",
@@ -39,12 +38,10 @@ export default function RootLayout({
   return (
     <GoogleOAuthProvider clientId={_config.google_client_id!}>
       <html lang="en">
-        <CreateLinkDialogProvider>
-          <body
-            className={`${interSans.variable} ${dynaPuff.variable} antialiased`}>
-            {children}
-          </body>
-        </CreateLinkDialogProvider>
+        <body
+          className={`${interSans.variable} ${dynaPuff.variable} antialiased`}>
+          {children}
+        </body>
       </html>
     </GoogleOAuthProvider>
   );
