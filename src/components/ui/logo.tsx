@@ -20,18 +20,12 @@ const Logo = ({
     <Link
       href={href}
       target="_blank"
-      className={cn("flex items-center gap-1", className)}>
-      <LinkIcon
-        className={cn("size-6", iconClassName)}
-        color={colors["s-secondary"]}
-      />
-      <span
-        className={cn(
-          "font-dyna-puff text-s-secondary text-xl",
-          labelClassName
-        )}>
-        LinkLite
-      </span>
+      className={cn(
+        "flex items-center gap-1 font-dyna-puff text-primary text-xl",
+        className
+      )}>
+      <LinkIcon className={cn("size-6", iconClassName)} />
+      <span className={cn("", labelClassName)}>LinkLite</span>
     </Link>
   );
 };

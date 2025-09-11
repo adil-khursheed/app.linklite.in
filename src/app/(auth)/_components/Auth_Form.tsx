@@ -94,7 +94,7 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
   };
 
   return (
-    <>
+    <div className="w-full flex flex-col space-y-4">
       <GoogleSignIn url={url} />
 
       <div className="before:bg-border after:bg-border flex items-center gap-3 before:h-px before:flex-1 after:h-px after:flex-1">
@@ -126,7 +126,7 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
               <FormItem>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <FormControl>
-                  <div className="flex items-center gap-2 h-12 border border-input rounded-md">
+                  <div className="flex items-center gap-2 h-12 border border-input rounded-md shadow-xs">
                     <Input
                       placeholder="Password"
                       type={showPassword ? "text" : "password"}
@@ -177,7 +177,7 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
           </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 
