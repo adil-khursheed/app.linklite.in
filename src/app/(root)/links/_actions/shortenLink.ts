@@ -1,24 +1,20 @@
 "use server";
 
-import axiosInstance from "@/axios/axios";
-import { AxiosError, AxiosResponse } from "axios";
+import kyInstance from "@/api-client/server-api-client";
 
 export const shortenLink = async (url: string) => {
   try {
-    const res: AxiosResponse<{
-      success: boolean;
-      message: string;
-      url: TShortLink;
-    }> = await axiosInstance.post("/api/v1/urls/create", {
-      originalLink: decodeURIComponent(url),
+    const res = await kyInstance.post("/api/v1/urls/create", {
+      json: { originalLink: decodeURIComponent(url) },
     });
 
-    return res.data;
+    return await res.json<{
+      message: string;
+      success: boolean;
+      url: TShortLink;
+    }>();
   } catch (error) {
-    if (error instanceof AxiosError) {
-      throw new Error(`${error.message}`);
-    } else {
-      throw new Error("An unknown error occurred while shortening the link");
-    }
+    console.error(error);
+    throw new Error("Url shortening failed");
   }
 };

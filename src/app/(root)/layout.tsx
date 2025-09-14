@@ -8,7 +8,7 @@ const Layout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <SidebarProvider className="p-2 bg-zinc-50">
+    <SidebarProvider className="p-2 bg-sidebar">
       <AppSidebar />
       <main className="flex-1">{children}</main>
     </SidebarProvider>

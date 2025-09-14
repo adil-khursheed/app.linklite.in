@@ -3,7 +3,6 @@ import {
   FolderClosedIcon,
   GlobeIcon,
   LinkIcon,
-  MousePointerClickIcon,
   SquareArrowUpRightIcon,
   TagIcon,
 } from "lucide-react";

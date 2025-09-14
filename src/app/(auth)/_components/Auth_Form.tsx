@@ -22,6 +22,7 @@ import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import GoogleSignIn from "./GoogleSignIn";
 import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
+import ky from "ky";
 
 const LoginSchema = z.object({
   email: z.email({ error: "Invalid email address" }),
@@ -54,20 +55,12 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
       let res: Response;
 
       if (isSignUp) {
-        res = await fetch("/api/auth/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+        res = await ky.post("/api/auth/signup", {
+          json: data,
         });
       } else {
-        res = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+        res = await ky.post("/api/auth/login", {
+          json: data,
         });
       }
 

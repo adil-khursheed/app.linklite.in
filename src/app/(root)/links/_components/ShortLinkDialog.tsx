@@ -19,7 +19,6 @@ import Facebook from "@/components/ui/facebook";
 import Twitter from "@/components/ui/twitter";
 import LinkedIn from "@/components/ui/linkedIn";
 import Telegram from "@/components/ui/telegram";
-import { useAuthStore } from "@/store/auth";
 
 const socialShare = [
   {
@@ -77,8 +76,6 @@ const ShortLinkDialog = ({
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const { decrementShortLinkLimit } = useAuthStore();
-
   const searchParams = useSearchParams();
 
   const router = useRouter();
@@ -108,9 +105,8 @@ const ShortLinkDialog = ({
   useEffect(() => {
     if (openOnMount) {
       setOpen(true);
-      decrementShortLinkLimit();
     }
-  }, [openOnMount, decrementShortLinkLimit]);
+  }, [openOnMount]);
 
   return (
     <>

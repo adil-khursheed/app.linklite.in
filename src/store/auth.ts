@@ -8,7 +8,6 @@ export interface IAuthStore {
   setHydrated: () => void;
   setUser: (user: UserInfo) => void;
   logout: () => void;
-  decrementShortLinkLimit: () => void;
 }
 
 export const useAuthStore = create<IAuthStore>()(
@@ -28,17 +27,6 @@ export const useAuthStore = create<IAuthStore>()(
       },
       logout: () => {
         set({ user: null });
-      },
-      decrementShortLinkLimit: () => {
-        set((state) => ({
-          user: {
-            ...state.user,
-            short_links_limit:
-              state.user && state.user.short_links_limit > 0
-                ? state?.user?.short_links_limit - 1
-                : 0,
-          },
-        }));
       },
     })),
 

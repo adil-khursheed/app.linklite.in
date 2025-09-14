@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { LinkIcon } from "lucide-react";
-import { colors } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { _config } from "@/lib/_config";
 

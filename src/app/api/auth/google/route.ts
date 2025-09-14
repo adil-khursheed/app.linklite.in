@@ -1,4 +1,4 @@
-import axiosInstance from "@/axios/axios";
+import kyInstance from "@/api-client/server-api-client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -11,8 +11,10 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const res = await axiosInstance.post("/api/v1/users/google-auth", {
-      access_token,
+    const res = await kyInstance.post("api/v1/users/google-auth", {
+      json: {
+        access_token,
+      },
     });
 
     const {
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest) {
       user,
       message,
       success,
-    } = res.data;
+    } = await res.json<AuthResponse>();
 
     const response = NextResponse.json(
       {

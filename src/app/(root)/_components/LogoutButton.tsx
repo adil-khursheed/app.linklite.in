@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { googleLogout } from "@react-oauth/google";
 import { useAuthStore } from "@/store/auth";
-import { _config } from "@/lib/_config";
 
 const LogoutButton = () => {
   const [loading, setLoading] = React.useState(false);

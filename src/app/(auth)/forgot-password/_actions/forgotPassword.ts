@@ -1,20 +1,18 @@
 "use server";
 
-import axiosInstance from "@/axios/axios";
-import { AxiosError } from "axios";
+import kyInstance from "@/api-client/server-api-client";
 
 export const forgotPassword = async (data: { email: string }) => {
   try {
-    const res = await axiosInstance.post("/api/v1/users/forgot-password", data);
-    return res.data;
+    const res = await kyInstance.post("api/v1/users/forgot-password", {
+      json: data,
+    });
+    return await res.json<{ success: boolean; message: string }>();
   } catch (error) {
     console.log(error);
-    if (error instanceof AxiosError) {
-      throw new Error(error.response?.data.message);
-    } else {
-      throw new Error(
-        "An unknown error occurred while sending reset password link."
-      );
-    }
+
+    throw new Error(
+      "An unknown error occurred while sending reset password link."
+    );
   }
 };

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import axiosInstance from "./axios/axios";
+import ky from "ky";
+import { _config } from "./lib/_config";
+import { getUser } from "./data/getUser";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -26,10 +28,12 @@ export async function middleware(req: NextRequest) {
 
   if (!access_token && refresh_token) {
     try {
-      const res = await axiosInstance.post(
-        "/api/v1/users/refresh-access-token",
+      const res = await ky.post(
+        `${_config.backend_url}/api/v1/users/refresh-access-token`,
         {
-          _linklite_refresh: refresh_token,
+          json: {
+            _linklite_refresh: refresh_token,
+          },
         }
       );
 
@@ -38,7 +42,7 @@ export async function middleware(req: NextRequest) {
         refresh_token: refreshToken,
         access_expiry,
         refresh_expiry,
-      } = res.data;
+      } = await res.json<RefreshTokenResponse>();
 
       const response = NextResponse.next();
 
@@ -77,7 +81,11 @@ export async function middleware(req: NextRequest) {
 
   // ✅ If access token and trying to access public route → redirect
   if (hasAccessToken && isPublicPath) {
-    return NextResponse.redirect(new URL("/links", req.url));
+    const user = await getUser();
+    if (user?.onboarded) {
+      return NextResponse.redirect(new URL("/links", req.url));
+    }
+    return NextResponse.redirect(new URL("/workspace/create", req.url));
   }
 
   return NextResponse.next();

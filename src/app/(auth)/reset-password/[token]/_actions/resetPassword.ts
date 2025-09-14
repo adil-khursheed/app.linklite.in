@@ -1,6 +1,6 @@
 "use server";
 
-import axiosInstance from "@/axios/axios";
+import kyInstance from "@/api-client/server-api-client";
 import { AxiosError } from "axios";
 
 export const resetPassword = async (data: {
@@ -8,8 +8,10 @@ export const resetPassword = async (data: {
   resetPasswordToken: string;
 }) => {
   try {
-    const res = await axiosInstance.post("/api/v1/users/reset-password", data);
-    return res.data;
+    const res = await kyInstance.post("api/v1/users/reset-password", {
+      json: data,
+    });
+    return await res.json<{ success: boolean; message: string }>();
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(`${error.response?.data.message}`);

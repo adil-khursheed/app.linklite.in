@@ -20,7 +20,7 @@ const CreateLinksButton = () => {
         <DialogTrigger asChild>
           <Button className="cursor-pointer h-11">
             Create Link{" "}
-            <span className="text-xs bg-muted-foreground text-neutral-300 px-1.5 py-1 rounded">
+            <span className="text-[10px] leading-tight bg-secondary text-secondary-foreground px-1 py-0.5 rounded">
               C
             </span>
           </Button>

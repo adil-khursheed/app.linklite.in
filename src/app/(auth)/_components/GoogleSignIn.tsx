@@ -5,6 +5,7 @@ import { Loader2Icon } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth";
+import ky from "ky";
 
 const GoogleSignIn = ({ url }: { url: string | null }) => {
   const [loading, setLoading] = React.useState(false);
@@ -17,15 +18,14 @@ const GoogleSignIn = ({ url }: { url: string | null }) => {
     onSuccess: async (response) => {
       try {
         setLoading(true);
-        const res = await fetch("/api/auth/google", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ access_token: response.access_token }),
+        const res = await ky.post("/api/auth/google", {
+          json: { access_token: response.access_token },
         });
 
-        const { success, user } = await res.json();
+        const { success, user } = await res.json<{
+          success: boolean;
+          user: UserInfo;
+        }>();
 
         if (success) {
           setUser(user);

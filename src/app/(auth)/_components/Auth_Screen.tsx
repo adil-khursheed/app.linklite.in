@@ -39,7 +39,7 @@ const Auth_Screen = ({ isSignUp = false }: { isSignUp?: boolean }) => {
         <Logo />
       </div>
 
-      <div className="relative z-10 flex-1 flex items-center justify-center w-full">
+      <div className="relative z-10 flex-1 flex items-center justify-center w-full px-5">
         <Card className="w-full sm:max-w-md">
           <CardContent>
             <div className="flex flex-col gap-2 mb-5">
