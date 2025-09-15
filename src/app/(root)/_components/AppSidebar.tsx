@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 import {
@@ -16,7 +14,6 @@ import AppSidebarMenu from "./AppSidebarMenu";
 import Link from "next/link";
 import { LinkIcon } from "lucide-react";
 import {
-  colors,
   insightsMenuItems,
   libraryMenuItems,
   shortLinksMenuItems,
@@ -30,8 +27,10 @@ const AppSidebar = () => {
       <div className="flex h-full">
         <div className="w-16 flex flex-col items-center justify-between my-2">
           <div className="size-12 flex justify-center items-center bg-secondary rounded-full shadow">
-            <Link href="/links" className="flex items-center font-bold gap-1">
-              <LinkIcon className="size-5" color={colors["s-secondary"]} />
+            <Link
+              href="/"
+              className="flex items-center font-bold gap-1 text-primary">
+              <LinkIcon className="size-5" />
               <span className="sr-only">LinkLite</span>
             </Link>
           </div>

@@ -12,16 +12,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { create_workspace } from "../_actions/create_workspace";
+import { useRouter } from "next/navigation";
+import { Loader2Icon } from "lucide-react";
 
 const Workspace_Form_Schema = z.object({
   name: z.string().min(1, { message: "Workspace name is required" }),
-  slug: z.string().min(1, { message: "Workspace slug is required" }),
+  slug: z.string().min(1, { message: "Slug is required" }),
 });
 
 const Workspace_Form = () => {
+  const [isPending, setIsPending] = useState(false);
+
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof Workspace_Form_Schema>>({
     resolver: zodResolver(Workspace_Form_Schema),
     defaultValues: {
@@ -30,10 +37,42 @@ const Workspace_Form = () => {
     },
   });
 
+  const { watch, setValue } = form;
+
+  const slugTransform = useCallback((value?: string) => {
+    if (value && typeof value === "string")
+      return value
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
+        .replace(/\s/g, "-");
+
+    return "";
+  }, []);
+
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === "name") {
+        setValue("slug", slugTransform(value?.name), { shouldValidate: true });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch, slugTransform, setValue]);
+
   const handleFormSubmit = async (
     data: z.infer<typeof Workspace_Form_Schema>
   ) => {
-    console.log(data);
+    try {
+      setIsPending(true);
+
+      const res = await create_workspace(data);
+      router.replace(`/${res.workspace.slug}/links`);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsPending(false);
+    }
   };
   return (
     <Form {...form}>
@@ -71,6 +110,11 @@ const Workspace_Form = () => {
                   <Input
                     placeholder="Enter workspace slug"
                     className="h-12 rounded-s-none"
+                    onInput={(e) => {
+                      setValue("slug", slugTransform(e.currentTarget.value), {
+                        shouldValidate: true,
+                      });
+                    }}
                     {...field}
                   />
                 </div>
@@ -83,8 +127,15 @@ const Workspace_Form = () => {
           )}
         />
 
-        <Button type="submit" className="w-full cursor-pointer h-12">
-          Create Workspace
+        <Button
+          type="submit"
+          className="w-full cursor-pointer h-12"
+          disabled={isPending}>
+          {isPending ? (
+            <Loader2Icon className="animate-spin" />
+          ) : (
+            "Create Workspace"
+          )}
         </Button>
       </form>
     </Form>

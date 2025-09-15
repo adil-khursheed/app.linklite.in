@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth";
 import ky from "ky";
 
-const GoogleSignIn = ({ url }: { url: string | null }) => {
+const GoogleSignIn = () => {
   const [loading, setLoading] = React.useState(false);
 
   const { setUser } = useAuthStore();
@@ -30,10 +30,10 @@ const GoogleSignIn = ({ url }: { url: string | null }) => {
         if (success) {
           setUser(user);
 
-          if (url) {
-            router.replace(`/links?url=${encodeURIComponent(url)}`);
+          if (!user.default_workspace) {
+            router.replace(`/workspace/create`);
           } else {
-            router.replace("/links");
+            router.replace(`${user.default_workspace}/links`);
           }
 
           toast.success("Login successful");
@@ -53,7 +53,7 @@ const GoogleSignIn = ({ url }: { url: string | null }) => {
   return (
     <Button
       variant="outline"
-      className="cursor-pointer w-full h-12 hover:bg-p-primary-light"
+      className="cursor-pointer w-full h-12"
       onClick={() => googleLogin()}
       disabled={loading}>
       <svg

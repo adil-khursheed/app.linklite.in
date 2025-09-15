@@ -1,18 +1,12 @@
 import "server-only";
 
 import { cache } from "react";
-import { getToken } from "./getToken";
 import kyInstance from "@/api-client/server-api-client";
 import { redirect } from "next/navigation";
 
 export const getUser = cache(async () => {
   try {
-    const token = await getToken();
-
     const user = await kyInstance.get(`api/v1/users/profile`, {
-      headers: {
-        Authorization: `Bearer ${token?.access_token}`,
-      },
       cache: "force-cache",
       next: {
         tags: ["current_user"],

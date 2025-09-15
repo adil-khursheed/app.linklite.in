@@ -2,9 +2,9 @@ import React, { Suspense } from "react";
 import DialogWrapper from "./_components/DialogWrapper";
 import type { Metadata } from "next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import CreateLinksButton from "../_components/CreateLinksButton";
 import EmptyList from "@/components/ui/empty-list";
 import { CreateLinkDialogProvider } from "@/contexts/createLinkDialogContext";
+import CreateLinksButton from "../_components/CreateLinksButton";
 
 export const metadata: Metadata = {
   title: "Links",

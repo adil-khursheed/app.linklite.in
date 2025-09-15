@@ -14,7 +14,7 @@ const Auth_Screen = ({ isSignUp = false }: { isSignUp?: boolean }) => {
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: `
-        radial-gradient(125% 125% at 50% 90%, transparent 40%, rgba(235, 94, 40,0.15) 100%)
+        radial-gradient(125% 125% at 50% 90%, transparent 40%, rgba(235, 94, 40,0.05) 100%)
       `,
           backgroundSize: "100% 100%",
         }}
@@ -24,8 +24,8 @@ const Auth_Screen = ({ isSignUp = false }: { isSignUp?: boolean }) => {
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: `
-        linear-gradient(to right, rgba(209, 213, 219, 0.2) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(209, 213, 219, 0.2) 1px, transparent 1px)
+        linear-gradient(to right, rgba(209, 213, 219, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(209, 213, 219, 0.1) 1px, transparent 1px)
       `,
           backgroundSize: "32px 32px",
           WebkitMaskImage:
@@ -35,7 +35,7 @@ const Auth_Screen = ({ isSignUp = false }: { isSignUp?: boolean }) => {
         }}
       />
 
-      <div className="relative z-10 w-full px-5 py-4">
+      <div className="relative z-10 w-full flex justify-start px-5 py-4">
         <Logo />
       </div>
 

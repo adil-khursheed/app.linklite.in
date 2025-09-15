@@ -22,7 +22,7 @@ import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import GoogleSignIn from "./GoogleSignIn";
 import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
-import ky from "ky";
+import ky, { KyResponse } from "ky";
 
 const LoginSchema = z.object({
   email: z.email({ error: "Invalid email address" }),
@@ -34,9 +34,6 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { setUser } = useAuthStore();
-
-  const searchParams = useSearchParams();
-  const url = searchParams.get("url");
 
   const router = useRouter();
 
@@ -52,7 +49,7 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
     try {
       setLoading(true);
 
-      let res: Response;
+      let res: KyResponse;
 
       if (isSignUp) {
         res = await ky.post("/api/auth/signup", {
@@ -64,15 +61,18 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
         });
       }
 
-      const { success, user } = await res.json();
+      const { success, user } = await res.json<{
+        success: boolean;
+        user: UserInfo;
+      }>();
 
       if (success) {
         setUser(user);
 
-        if (url) {
-          router.replace(`/links?url=${encodeURIComponent(url)}`);
+        if (isSignUp) {
+          router.replace(`/workspace/create`);
         } else {
-          router.replace("/links");
+          router.replace(`${user.default_workspace}/links`);
         }
 
         toast.success(`${isSignUp ? "Signup" : "Login"} successful`);
@@ -88,7 +88,7 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
 
   return (
     <div className="w-full flex flex-col space-y-4">
-      <GoogleSignIn url={url} />
+      <GoogleSignIn />
 
       <div className="before:bg-border after:bg-border flex items-center gap-3 before:h-px before:flex-1 after:h-px after:flex-1">
         <span className="text-muted-foreground text-xs">OR</span>

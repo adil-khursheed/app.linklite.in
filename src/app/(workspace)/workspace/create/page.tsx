@@ -12,13 +12,13 @@ const Page = () => {
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: `
-    radial-gradient(125% 125% at 50% 90%, transparent 40%, rgba(235, 94, 40,0.15) 100%)
+    radial-gradient(125% 125% at 50% 90%, transparent 40%, rgba(235, 94, 40,0.05) 100%)
   `,
           backgroundSize: "100% 100%",
         }}
       />
 
-      <div className="relative z-10 w-full px-5 py-4">
+      <div className="relative z-10 w-full flex justify-start px-5 py-4">
         <Logo />
       </div>
 

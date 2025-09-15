@@ -23,7 +23,13 @@ export async function middleware(req: NextRequest) {
   if (!access_token && pathname === "/") {
     return NextResponse.redirect(new URL("/login", req.url));
   } else if (access_token && pathname === "/") {
-    return NextResponse.redirect(new URL("/links", req.url));
+    const user = await getUser();
+    if (user?.onboarded) {
+      return NextResponse.redirect(
+        new URL(`/${user.default_workspace}/links`, req.url)
+      );
+    }
+    return NextResponse.redirect(new URL("/workspace/create", req.url));
   }
 
   if (!access_token && refresh_token) {
@@ -83,7 +89,9 @@ export async function middleware(req: NextRequest) {
   if (hasAccessToken && isPublicPath) {
     const user = await getUser();
     if (user?.onboarded) {
-      return NextResponse.redirect(new URL("/links", req.url));
+      return NextResponse.redirect(
+        new URL(`/${user.default_workspace}/links`, req.url)
+      );
     }
     return NextResponse.redirect(new URL("/workspace/create", req.url));
   }
