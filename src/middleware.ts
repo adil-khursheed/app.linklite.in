@@ -23,12 +23,14 @@ export async function middleware(req: NextRequest) {
   if (!access_token && pathname === "/") {
     return NextResponse.redirect(new URL("/login", req.url));
   } else if (access_token && pathname === "/") {
-    const user = await getUser();
+    const { user } = await getUser();
+
     if (user?.onboarded) {
       return NextResponse.redirect(
         new URL(`/${user.default_workspace}/links`, req.url)
       );
     }
+
     return NextResponse.redirect(new URL("/workspace/create", req.url));
   }
 
@@ -87,7 +89,8 @@ export async function middleware(req: NextRequest) {
 
   // ✅ If access token and trying to access public route → redirect
   if (hasAccessToken && isPublicPath) {
-    const user = await getUser();
+    const { user } = await getUser();
+
     if (user?.onboarded) {
       return NextResponse.redirect(
         new URL(`/${user.default_workspace}/links`, req.url)

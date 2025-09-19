@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import { useAuthStore } from "@/store/auth";
 

@@ -4,7 +4,7 @@ import kyInstance from "@/api-client/server-api-client";
 
 export const shortenLink = async (url: string) => {
   try {
-    const res = await kyInstance.post("/api/v1/urls/create", {
+    const res = await kyInstance.post("api/v1/urls/create", {
       json: { originalLink: decodeURIComponent(url) },
     });
 

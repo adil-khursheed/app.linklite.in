@@ -64,3 +64,12 @@ type TWorkspace = {
   created_at: string;
   updated_at: string;
 };
+
+type TUrlMetadata = {
+  title: string;
+  description: string;
+  image: string;
+  favicon: string;
+  url: string;
+  siteName: string;
+};

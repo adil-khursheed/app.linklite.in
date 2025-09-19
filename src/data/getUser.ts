@@ -13,8 +13,12 @@ export const getUser = cache(async () => {
         revalidate: 60 * 10,
       },
     });
-    const userData = await user.json<UserInfo>();
-    if (!userData) {
+    const userData = await user.json<{
+      success: boolean;
+      message: string;
+      user: UserInfo;
+    }>();
+    if (!userData.success) {
       redirect("/login");
     }
 

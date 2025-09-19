@@ -1,23 +1,15 @@
-import React, { Suspense } from "react";
-import DialogWrapper from "./_components/DialogWrapper";
+import React from "react";
 import type { Metadata } from "next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import EmptyList from "@/components/ui/empty-list";
 import { CreateLinkDialogProvider } from "@/contexts/createLinkDialogContext";
-import CreateLinksButton from "../_components/CreateLinksButton";
+import CreateLinksButton from "./_components/CreateLinksButton";
 
 export const metadata: Metadata = {
   title: "Links",
 };
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) => {
-  const urlParams = await searchParams;
-  const { url } = urlParams;
-
+const Page = async () => {
   return (
     <CreateLinkDialogProvider>
       <section className="px-3 py-5 sm:p-5 bg-white rounded-md h-[calc(100vh-16px)] shadow border border-border flex flex-col gap-y-4">
@@ -39,12 +31,6 @@ const Page = async ({
             <CreateLinksButton />
           </div>
         </div>
-
-        {url && (
-          <Suspense>
-            <DialogWrapper url={url as string} />
-          </Suspense>
-        )}
       </section>
     </CreateLinkDialogProvider>
   );

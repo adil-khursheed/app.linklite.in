@@ -4,7 +4,6 @@ import React from "react";
 import ForgotPasswordForm from "./_components/ForgotPasswordForm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { colors } from "@/lib/constants";
 import Logo from "@/components/ui/logo";
 
 const Page = () => {
@@ -22,7 +21,7 @@ const Page = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="flex flex-col items-center gap-2">
             <div className="size-12 p-2 rounded-full bg-p-primary-light flex items-center justify-center">
-              <FingerprintIcon color={colors["s-secondary"]} size={25} />
+              <FingerprintIcon className="text-primary" size={25} />
             </div>
 
             <h2 className="text-xl font-bold">Forgot Password</h2>

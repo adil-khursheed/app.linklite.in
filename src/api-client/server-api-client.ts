@@ -51,7 +51,7 @@ const kyInstance = ky.create({
           const newRequest = new Request(request, {
             headers: {
               ...Object.fromEntries(request.headers),
-              Authorization: `Bearer ${newToken}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           });
           return ky(newRequest);

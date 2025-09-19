@@ -1,6 +1,7 @@
 "use server";
 
 import kyInstance from "@/api-client/server-api-client";
+import { revalidateTag } from "next/cache";
 
 export const create_workspace = async (data: {
   name: string;
@@ -16,6 +17,8 @@ export const create_workspace = async (data: {
       message: string;
       workspace: TWorkspace;
     }>();
+
+    revalidateTag("current_user");
     return workspace_data;
   } catch (error) {
     console.error(error);

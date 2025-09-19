@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowLeft, LockIcon } from "lucide-react";
-import { colors } from "@/lib/constants";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
@@ -24,7 +23,7 @@ const Page = async ({ params }: { params: Promise<{ token: string }> }) => {
         <Card className="w-full max-w-md">
           <CardHeader className="flex flex-col items-center gap-2">
             <div className="size-12 p-2 rounded-full bg-p-primary-light flex items-center justify-center">
-              <LockIcon color={colors["s-secondary"]} size={25} />
+              <LockIcon className="text-primary" size={25} />
             </div>
 
             <h2 className="text-xl font-bold">Reset Password</h2>

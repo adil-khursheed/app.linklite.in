@@ -6,7 +6,6 @@ import Link from "next/link";
 import { LinkIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { colors } from "@/lib/constants";
 import { SidebarHeader } from "@/components/ui/sidebar";
 
 const AppSidebarHeader = () => {
@@ -15,7 +14,7 @@ const AppSidebarHeader = () => {
       <Link
         href="/dashboard"
         className={cn("flex items-center gap-1 font-dyna-puff")}>
-        <LinkIcon className={cn("size-5")} color={colors["s-secondary"]} />
+        <LinkIcon className={cn("size-5 text-primary")} />
         <span className={cn("text-lg")}>LinkLite</span>
       </Link>
     </SidebarHeader>
