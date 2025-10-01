@@ -13,3 +13,10 @@ export const isValidUrl = (url: string) => {
     return false;
   }
 };
+
+export function capitalizeFirstLetter(sentence: string) {
+  const firstLetterCap = sentence.charAt(0).toUpperCase();
+  const remainingLetters = sentence.slice(1);
+
+  return firstLetterCap + remainingLetters;
+}

@@ -3,6 +3,8 @@ import { DynaPuff, Outfit, Aoboshi_One, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { _config } from "@/lib/_config";
+import Providers from "./providers";
+import { Toaster } from "@/components/ui/sonner";
 
 const outfit_sans = Outfit({
   variable: "--font-sans",
@@ -51,7 +53,10 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={`${outfit_sans.variable} ${aoboshi_one.variable} ${fira_code.variable} ${dynaPuff.variable} antialiased`}>
-          {children}
+          <Providers>
+            {children}
+            <Toaster />
+          </Providers>
         </body>
       </html>
     </GoogleOAuthProvider>

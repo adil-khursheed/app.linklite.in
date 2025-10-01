@@ -73,3 +73,11 @@ type TUrlMetadata = {
   url: string;
   siteName: string;
 };
+
+type TTag = {
+  _id: string;
+  name: string;
+  workspace_id: string;
+  created_at: string;
+  updated_at: string;
+};

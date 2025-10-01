@@ -28,7 +28,7 @@ const CreateLinksButton = () => {
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="max-h-[80svh] sm:max-w-5xl">
+        <DialogContent className="sm:max-w-6xl">
           <DialogHeader className="mb-3">
             <DialogTitle>Create a short Link</DialogTitle>
             <DialogDescription className="sr-only">

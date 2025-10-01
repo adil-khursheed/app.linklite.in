@@ -19,7 +19,7 @@ export const CreateLinkDialogProvider: React.FC<{
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "c") {
+      if (!open && e.key.toLowerCase() === "c") {
         e.preventDefault();
         setOpen(true);
       }
@@ -30,7 +30,7 @@ export const CreateLinkDialogProvider: React.FC<{
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [open]);
 
   return (
     <CreateLinkDialogContext.Provider value={{ open, setOpen }}>
