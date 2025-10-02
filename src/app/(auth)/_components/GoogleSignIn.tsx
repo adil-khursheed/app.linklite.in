@@ -53,7 +53,7 @@ const GoogleSignIn = () => {
   return (
     <Button
       variant="outline"
-      className="cursor-pointer w-full h-12"
+      className="cursor-pointer w-full h-12 border-border"
       onClick={() => googleLogin()}
       disabled={loading}>
       <svg

@@ -42,6 +42,8 @@ import { useParams } from "next/navigation";
 import { getTags } from "../../_actions/getTags";
 import { createTag } from "../../_actions/createTags";
 import { toast } from "sonner";
+import { shortenLink } from "../_actions/shortenLink";
+import { useCreateLinkDialog } from "@/contexts/createLinkDialogContext";
 
 const CreateLinkSchema = z.object({
   destination_url: z.url().min(2, { error: "Destination url is required" }),
@@ -60,6 +62,9 @@ const CreateLinkSchema = z.object({
 const LinkForm = () => {
   const [newTag, setNewTag] = useState("");
   const [metadataLoading, setMetadataLoading] = useState(false);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+
+  const { setOpen } = useCreateLinkDialog();
 
   const params = useParams<{ workspace_slug: string }>();
   const { workspace_slug } = params;
@@ -133,9 +138,31 @@ const LinkForm = () => {
 
   const handleLinkSubmit = async (data: z.infer<typeof CreateLinkSchema>) => {
     try {
-      console.log(data);
+      setIsFormSubmitting(true);
+
+      const res = await shortenLink({
+        workspace_slug,
+        destination_url: data.destination_url,
+        short_link_id: data.short_link,
+        tags: data.tags,
+        comment: data.comment,
+        url_metadata: data.metadata,
+        domain: _config.backend_url!,
+      });
+
+      if (res.success) {
+        queryClient.invalidateQueries({ queryKey: ["urls", workspace_slug] });
+        toast.success("Link created successfully");
+        form.reset();
+        setOpen(false);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     } catch (error) {
       console.log(error);
+      toast.error("Link creation failed");
+    } finally {
+      setIsFormSubmitting(false);
     }
   };
 
@@ -343,7 +370,16 @@ const LinkForm = () => {
           </div>
 
           <div className="pt-3 flex justify-end">
-            <Button type="submit">Create Link</Button>
+            <Button
+              type="submit"
+              disabled={isFormSubmitting}
+              className="cursor-pointer">
+              {isFormSubmitting ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                "Create Link"
+              )}
+            </Button>
           </div>
         </form>
       </Form>

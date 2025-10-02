@@ -20,3 +20,7 @@ export function capitalizeFirstLetter(sentence: string) {
 
   return firstLetterCap + remainingLetters;
 }
+
+export function removeHttpAndWww(str: string): string {
+  return str.replace(/^https?:\/\/(www\.)?/, "");
+}

@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import EmptyList from "@/components/ui/empty-list";
 import { CreateLinkDialogProvider } from "@/contexts/createLinkDialogContext";
 import CreateLinksButton from "./_components/CreateLinksButton";
 import {
@@ -10,6 +9,8 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { getTags } from "../_actions/getTags";
+import { getShortLinks } from "./_actions/getShortLinks";
+import LinksList from "./_components/LinksList";
 
 export const metadata: Metadata = {
   title: "Links",
@@ -23,10 +24,17 @@ const Page = async ({
   const { workspace_slug } = await params;
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ["tags", workspace_slug],
-    queryFn: () => getTags(workspace_slug),
-  });
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["tags", workspace_slug],
+      queryFn: () => getTags(workspace_slug),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ["urls", workspace_slug],
+      queryFn: () => getShortLinks(workspace_slug),
+    }),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -45,11 +53,8 @@ const Page = async ({
               <CreateLinksButton />
             </div>
 
-            <div className="flex-1 flex items-center justify-center border border-border rounded-sm">
-              <div className="flex flex-col items-center gap-4 w-full">
-                <EmptyList />
-                <CreateLinksButton />
-              </div>
+            <div className="flex-1 border border-border rounded-sm overflow-hidden">
+              <LinksList />
             </div>
           </section>
         </CreateLinkDialogProvider>

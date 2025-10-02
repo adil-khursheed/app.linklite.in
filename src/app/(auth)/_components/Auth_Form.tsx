@@ -119,7 +119,7 @@ const Login_Form = ({ isSignUp = false }: { isSignUp?: boolean }) => {
               <FormItem>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <FormControl>
-                  <div className="flex items-center gap-2 h-12 border border-input rounded-md shadow-xs">
+                  <div className="flex items-center gap-2 h-12 border border-border rounded-md shadow-xs">
                     <Input
                       placeholder="Password"
                       type={showPassword ? "text" : "password"}

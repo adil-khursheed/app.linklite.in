@@ -26,15 +26,34 @@ interface AuthResponse extends RefreshTokenResponse {
   success: boolean;
 }
 
+type TLinkMetadata = {
+  title: string | null;
+  description: string | null;
+  favicon: string | null;
+  og_image: string | null;
+};
+
 type TShortLink = {
   _id: string;
-  user_id: string;
-  short_link_id: string;
-  original_link: string;
   workspace_id: string;
-  clicks_history: Array<{ time_stamp: string }>;
-  createdAt: string;
-  updatedAt: string;
+  created_by: {
+    _id: string;
+    display_name: string;
+    email: string;
+    avatar: {
+      key: string | null;
+      url: string | null;
+    };
+  };
+  domain: string;
+  short_link_id: string;
+  destination_url: string;
+  tags: TTag[];
+  comment: string | null;
+  link_metadata: TLinkMetadata;
+  folder: string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 type TWorkspace = {
