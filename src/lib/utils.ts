@@ -24,3 +24,8 @@ export function capitalizeFirstLetter(sentence: string) {
 export function removeHttpAndWww(str: string): string {
   return str.replace(/^https?:\/\/(www\.)?/, "");
 }
+
+export function formatCompactNumber(num: number) {
+  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(num);
+}

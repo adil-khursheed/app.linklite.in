@@ -65,7 +65,15 @@ type TWorkspace = {
     url: string | null;
   };
   plan: "free" | "pro" | "premium";
-  members: string[];
+  members: Array<{
+    _id: string;
+    name: string;
+    email: string;
+    avatar: {
+      key: string | null;
+      url: string | null;
+    };
+  }>;
   members_limit: number;
   short_links_limit: number;
   links_created: number;
@@ -75,9 +83,18 @@ type TWorkspace = {
   total_clicks: number;
   clicks_limit: number;
   billing_cycle_start: number;
-  created_by: string;
+  created_by: {
+    _id: string;
+    name: string;
+    email: string;
+    avatar: {
+      key: string | null;
+      url: string | null;
+    };
+  };
   invite_code: string;
   tags_limit: number;
+  tags_created: number;
   folders_limit: number;
   folders_created: number;
   created_at: string;

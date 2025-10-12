@@ -40,21 +40,23 @@ const Page = async ({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Suspense>
         <CreateLinkDialogProvider>
-          <section className="px-3 py-5 sm:p-5 bg-white rounded-md h-[calc(100vh-16px)] shadow border border-border flex flex-col gap-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <SidebarTrigger className="cursor-pointer md:hidden" />
+          <section className="px-3 py-5 sm:p-5 bg-white rounded-md h-[calc(100vh-16px)] shadow border border-border">
+            <div className="max-w-6xl w-full h-full mx-auto flex flex-col gap-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <SidebarTrigger className="cursor-pointer md:hidden" />
 
-                <h2 className="text-xl sm:text-2xl font-bold">
-                  Bridge For Your Connections
-                </h2>
+                  <h2 className="text-xl sm:text-2xl font-bold">
+                    Bridge For Your Connections
+                  </h2>
+                </div>
+
+                <CreateLinksButton />
               </div>
 
-              <CreateLinksButton />
-            </div>
-
-            <div className="flex-1 border border-border rounded-sm overflow-hidden">
-              <LinksList />
+              <div className="flex-1 border border-border rounded-sm overflow-hidden">
+                <LinksList />
+              </div>
             </div>
           </section>
         </CreateLinkDialogProvider>
