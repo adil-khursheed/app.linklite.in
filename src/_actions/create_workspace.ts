@@ -19,6 +19,7 @@ export const create_workspace = async (data: {
     }>();
 
     revalidateTag("current_user");
+    revalidateTag("all_workspaces");
     return workspace_data;
   } catch (error) {
     console.error(error);

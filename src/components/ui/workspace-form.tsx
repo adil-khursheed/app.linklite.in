@@ -15,19 +15,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { create_workspace } from "../_actions/create_workspace";
 import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { create_workspace } from "@/_actions/create_workspace";
+import { toast } from "sonner";
 
 const Workspace_Form_Schema = z.object({
   name: z.string().min(1, { message: "Workspace name is required" }),
   slug: z.string().min(1, { message: "Slug is required" }),
 });
 
-const Workspace_Form = () => {
+const Workspace_Form = ({
+  setDialogOpen,
+}: {
+  setDialogOpen?: (open: boolean) => void;
+}) => {
   const [isPending, setIsPending] = useState(false);
 
   const router = useRouter();
+
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof Workspace_Form_Schema>>({
     resolver: zodResolver(Workspace_Form_Schema),
@@ -67,9 +75,14 @@ const Workspace_Form = () => {
       setIsPending(true);
 
       const res = await create_workspace(data);
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      if (setDialogOpen) setDialogOpen(false);
       router.replace(`/${res.workspace.slug}/links`);
     } catch (error) {
       console.error(error);
+      toast.error(
+        error instanceof Error ? error.message : "Failed to create workspace"
+      );
     } finally {
       setIsPending(false);
     }

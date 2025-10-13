@@ -36,3 +36,16 @@ export const libraryMenuItems = [
     icon: "SquareArrowUpRightIcon",
   },
 ];
+
+export const workspaceSettingsMenuItems = [
+  {
+    title: "General",
+    url: "/settings",
+    icon: "CogIcon",
+  },
+  {
+    title: "People",
+    url: "/settings/people",
+    icon: "UsersIcon",
+  },
+];

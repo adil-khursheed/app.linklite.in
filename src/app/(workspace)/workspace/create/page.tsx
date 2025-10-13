@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Logo from "@/components/ui/logo";
 import { Skeleton } from "@/components/ui/skeleton";
+import Workspace_Form from "@/components/ui/workspace-form";
 import React, { Suspense } from "react";
-import Workspace_Form from "./_components/Workspace_Form";
 
 const Page = () => {
   return (

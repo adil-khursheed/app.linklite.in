@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -12,11 +12,13 @@ import {
 import { cn } from "@/lib/utils";
 import {
   BarChart3Icon,
+  CogIcon,
   FolderClosedIcon,
   GlobeIcon,
   LinkIcon,
   SquareArrowUpRightIcon,
   TagIcon,
+  UsersIcon,
 } from "lucide-react";
 
 interface ItemProps {
@@ -32,11 +34,13 @@ const icons = {
   FolderClosedIcon,
   TagIcon,
   SquareArrowUpRightIcon,
+  CogIcon,
+  UsersIcon,
 };
 
 const AppSidebarMenu = ({ items }: { items: ItemProps[] }) => {
   const pathname = usePathname();
-  const workspace_slug = pathname.split("/")[1];
+  const params = useParams<{ workspace_slug?: string }>();
 
   return (
     <SidebarMenu className={cn("gap-2")}>
@@ -47,9 +51,9 @@ const AppSidebarMenu = ({ items }: { items: ItemProps[] }) => {
           <SidebarMenuItem key={item.title} className="px-1">
             <SidebarMenuButton
               asChild
-              isActive={pathname === `/${workspace_slug}${item.url}`}>
+              isActive={pathname === `/${params?.workspace_slug}${item.url}`}>
               <Link
-                href={`/${workspace_slug}${item.url}`}
+                href={`/${params?.workspace_slug}${item.url}`}
                 className={cn("flex items-center gap-2 text-sm")}>
                 <Icon />
                 <span>{item.title}</span>

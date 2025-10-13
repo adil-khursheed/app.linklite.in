@@ -1,6 +1,6 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { LinkIcon, MousePointerClickIcon } from "lucide-react";
 import React from "react";
 import { getWorkspaceBySlug } from "../_actions/getWorkspaces";
@@ -9,11 +9,12 @@ import { formatCompactNumber } from "@/lib/utils";
 import { useParams } from "next/navigation";
 
 const TotalLinksAndClicks = () => {
-  const { workspace_slug } = useParams<{ workspace_slug?: string }>();
+  const params = useParams<{ workspace_slug?: string }>();
 
-  const { data: workspace } = useSuspenseQuery({
-    queryKey: ["workspace", workspace_slug],
-    queryFn: () => getWorkspaceBySlug(workspace_slug || ""),
+  const { data: workspace } = useQuery({
+    queryKey: ["workspace", params.workspace_slug],
+    queryFn: () => getWorkspaceBySlug(params.workspace_slug || ""),
+    enabled: !!params.workspace_slug,
   });
 
   return (
@@ -27,11 +28,13 @@ const TotalLinksAndClicks = () => {
         <div className="flex items-center gap-1">
           <SlidingNumber
             value={Number(
-              formatCompactNumber(workspace.workspace.total_clicks)
+              formatCompactNumber(workspace?.workspace.total_clicks || 0)
             )}
           />
           <span>of</span>
-          <span>{formatCompactNumber(workspace.workspace.clicks_limit)}</span>
+          <span>
+            {formatCompactNumber(workspace?.workspace.clicks_limit || 0)}
+          </span>
         </div>
       </div>
 
@@ -44,12 +47,12 @@ const TotalLinksAndClicks = () => {
         <div className="flex items-center gap-1">
           <SlidingNumber
             value={Number(
-              formatCompactNumber(workspace.workspace.links_created)
+              formatCompactNumber(workspace?.workspace.links_created || 0)
             )}
           />
           <span>of</span>
           <span>
-            {formatCompactNumber(workspace.workspace.short_links_limit)}
+            {formatCompactNumber(workspace?.workspace.short_links_limit || 0)}
           </span>
         </div>
       </div>
