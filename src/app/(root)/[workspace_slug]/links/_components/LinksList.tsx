@@ -56,64 +56,64 @@ const LinksList = () => {
               }}
               className="rounded w-full py-3">
               <CardContent className="w-full flex items-center justify-between gap-3">
-                <div className="min-w-0 grow">
-                  <div className="w-full flex items-center gap-3">
-                    {url.link_metadata && url.link_metadata.favicon ? (
-                      <Avatar className="size-7 rounded-full flex items-center justify-center border border-border">
-                        <AvatarImage
-                          src={url.link_metadata.favicon}
-                          className="size-5 rounded-full object-contain"
-                        />
-                      </Avatar>
-                    ) : null}
+                <div className="flex-1 flex items-center gap-3 min-w-0">
+                  {url.link_metadata && url.link_metadata.favicon ? (
+                    <Avatar className="size-7 rounded-full flex items-center justify-center border border-border shrink-0">
+                      <AvatarImage
+                        src={url.link_metadata.favicon}
+                        className="size-5 rounded-full object-contain"
+                      />
+                    </Avatar>
+                  ) : null}
 
-                    <div className="min-w-0 overflow-hidden">
-                      <div className="text-[15px] font-medium flex items-center gap-5">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[15px] font-medium flex items-center gap-5">
+                      <Link
+                        href={`${url.domain}/${url.short_link_id}`}
+                        onClick={(e) => e.stopPropagation()}
+                        target="_blank">
+                        {removeHttpAndWww(url.domain)}/{url.short_link_id}
+                      </Link>
+                      <Button
+                        variant={"ghost"}
+                        size={"icon"}
+                        className="cursor-pointer">
+                        <CopyIcon />
+                      </Button>
+                    </div>
+
+                    <div className="min-w-0 w-full flex items-center gap-3 text-[13px] text-secondary-foreground px-2">
+                      <div className="flex items-center gap-3 min-w-0 overflow-hidden">
+                        <CornerDownRightIcon
+                          className="text-border shrink-0"
+                          size={16}
+                        />
+
                         <Link
-                          href={`${url.domain}/${url.short_link_id}`}
+                          href={url.destination_url}
                           onClick={(e) => e.stopPropagation()}
-                          target="_blank">
-                          {removeHttpAndWww(url.domain)}/{url.short_link_id}
+                          target="_blank"
+                          className="hover:underline flex-1 min-w-0">
+                          <span className="w-full truncate">
+                            {removeHttpAndWww(url.destination_url)}
+                          </span>
                         </Link>
-                        <Button
-                          variant={"ghost"}
-                          size={"icon"}
-                          className="cursor-pointer">
-                          <CopyIcon />
-                        </Button>
                       </div>
 
-                      <div className="flex items-center gap-3 text-[13px] text-secondary-foreground px-2 min-w-0">
-                        <div className="min-w-0 flex items-center gap-3">
-                          <CornerDownRightIcon
-                            className="text-border shrink-0"
-                            size={16}
-                          />
+                      <Avatar className="size-5">
+                        <AvatarImage
+                          src={url.created_by.avatar.url || undefined}
+                          alt={`${url.created_by.display_name}'s avatar`}
+                        />
+                        <AvatarFallback>
+                          {url.created_by.display_name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
 
-                          <Link
-                            href={url.destination_url}
-                            onClick={(e) => e.stopPropagation()}
-                            target="_blank"
-                            className="hover:underline">
-                            {removeHttpAndWww(url.destination_url)}
-                          </Link>
-                        </div>
-
-                        <Avatar className="size-5">
-                          <AvatarImage
-                            src={url.created_by.avatar.url || undefined}
-                            alt={`${url.created_by.display_name}'s avatar`}
-                          />
-                          <AvatarFallback>
-                            {url.created_by.display_name.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-
-                        <div className="text-xs text-secondary-foreground">
-                          <span className="whitespace-nowrap">
-                            {formatDate(url.created_at, "MMM dd")}
-                          </span>
-                        </div>
+                      <div className="text-xs text-secondary-foreground">
+                        <span className="whitespace-nowrap">
+                          {formatDate(url.created_at, "MMM dd")}
+                        </span>
                       </div>
                     </div>
                   </div>

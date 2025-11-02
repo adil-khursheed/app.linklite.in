@@ -28,6 +28,7 @@ export const getWorkspaceBySlug = async (slug: string) => {
       cache: "force-cache",
       next: {
         tags: [`workspace:${slug}`],
+        revalidate: 30,
       },
     });
 

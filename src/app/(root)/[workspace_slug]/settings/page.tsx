@@ -1,7 +1,51 @@
-import React from "react";
+import React, { Suspense } from "react";
+import type { Metadata } from "next";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
-const Page = () => {
-  return <div>Settings Page</div>;
+import { getWorkspaceBySlug } from "../../_actions/getWorkspaces";
+import WorkspaceNameInput from "./_components/workspaceNameInput";
+import WorkspaceSlugInput from "./_components/workspaceSlugInput";
+import DeleteWorkspace from "./_components/deleteWorkspace";
+
+export const metadata: Metadata = {
+  title: "General Settings",
+};
+
+const Page = async ({
+  params,
+}: {
+  params: Promise<{ workspace_slug: string }>;
+}) => {
+  const { workspace_slug } = await params;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["workspace", workspace_slug],
+    queryFn: () => getWorkspaceBySlug(workspace_slug),
+  });
+
+  return (
+    <section className="max-w-5xl mx-auto w-full px-3 space-y-5">
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense>
+          <WorkspaceNameInput />
+        </Suspense>
+
+        <Suspense>
+          <WorkspaceSlugInput />
+        </Suspense>
+
+        <Suspense>
+          <DeleteWorkspace />
+        </Suspense>
+      </HydrationBoundary>
+    </section>
+  );
 };
 
 export default Page;
