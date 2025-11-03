@@ -77,7 +77,7 @@ const WorkspaceNameInput = () => {
             )}
           />
 
-          <div className="w-full flex items-center justify-between h-14 px-6 bg-primary/5">
+          <div className="w-full flex items-center justify-between gap-3 py-4 px-6 bg-primary/5">
             <span className="text-muted-foreground text-sm">
               Max 32 characters.
             </span>

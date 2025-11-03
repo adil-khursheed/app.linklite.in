@@ -47,7 +47,7 @@ const DeleteWorkspace = () => {
       title="Delete Workspace"
       description="Permanently delete your workspace, custom domain, and all associated links + their stats. This action cannot be undone - please proceed with caution"
       className="border-destructive">
-      <div className="h-16 border-t border-destructive px-6 flex items-center justify-end-safe">
+      <div className="border-t border-destructive py-4 px-6 flex items-center justify-end-safe">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant={"destructive"}>Delete Workspace</Button>

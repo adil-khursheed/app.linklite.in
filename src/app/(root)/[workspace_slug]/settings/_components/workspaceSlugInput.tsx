@@ -80,7 +80,7 @@ const WorkspaceSlugInput = () => {
             )}
           />
 
-          <div className="w-full flex items-center justify-between h-14 px-6 bg-primary/5">
+          <div className="w-full flex items-center justify-between gap-3 py-4 px-6 bg-primary/5">
             <span className="text-muted-foreground text-sm">
               Only lowercase letters, numbers and dashes. Max 48 characters.
             </span>

@@ -10,6 +10,8 @@ import { getWorkspaceBySlug } from "../../_actions/getWorkspaces";
 import WorkspaceNameInput from "./_components/workspaceNameInput";
 import WorkspaceSlugInput from "./_components/workspaceSlugInput";
 import DeleteWorkspace from "./_components/deleteWorkspace";
+import Container from "@/components/ui/container";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "General Settings",
@@ -30,21 +32,26 @@ const Page = async ({
   });
 
   return (
-    <section className="max-w-5xl mx-auto w-full px-3 space-y-5">
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense>
-          <WorkspaceNameInput />
-        </Suspense>
+    <Container className="px-1 md:px-3">
+      <div className="max-w-6xl mx-auto w-full px-3 space-y-5">
+        <div className="md:hidden">
+          <SidebarTrigger />
+        </div>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Suspense>
+            <WorkspaceNameInput />
+          </Suspense>
 
-        <Suspense>
-          <WorkspaceSlugInput />
-        </Suspense>
+          <Suspense>
+            <WorkspaceSlugInput />
+          </Suspense>
 
-        <Suspense>
-          <DeleteWorkspace />
-        </Suspense>
-      </HydrationBoundary>
-    </section>
+          <Suspense>
+            <DeleteWorkspace />
+          </Suspense>
+        </HydrationBoundary>
+      </div>
+    </Container>
   );
 };
 

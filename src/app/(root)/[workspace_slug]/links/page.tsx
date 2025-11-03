@@ -11,6 +11,7 @@ import {
 import { getTags } from "../_actions/getTags";
 import { getShortLinks } from "./_actions/getShortLinks";
 import LinksList from "./_components/LinksList";
+import Container from "@/components/ui/container";
 
 export const metadata: Metadata = {
   title: "Links",
@@ -40,7 +41,7 @@ const Page = async ({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Suspense>
         <CreateLinkDialogProvider>
-          <section className="px-3 py-5 sm:p-5 bg-white rounded-md h-[calc(100vh-16px)] shadow border border-border">
+          <Container>
             <div className="max-w-6xl w-full h-full mx-auto flex flex-col gap-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
@@ -58,7 +59,7 @@ const Page = async ({
                 <LinksList />
               </div>
             </div>
-          </section>
+          </Container>
         </CreateLinkDialogProvider>
       </Suspense>
     </HydrationBoundary>
