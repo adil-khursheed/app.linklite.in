@@ -12,13 +12,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import WorkspaceSettingsCard from "./workspaceSettingsCard";
+import { updateWorkspace } from "../_actions/updateWorkspace";
+import { Loader2Icon } from "lucide-react";
 
 const WorkspaceNameSchema = z.object({
   name: z
@@ -28,6 +34,8 @@ const WorkspaceNameSchema = z.object({
 });
 
 const WorkspaceNameInput = () => {
+  const [isPending, setIsPending] = useState(false);
+
   const params = useParams<{ workspace_slug: string }>();
   const { workspace_slug } = params;
 
@@ -49,12 +57,30 @@ const WorkspaceNameInput = () => {
   const nameWatched = form.watch("name");
   const isDisabled = nameWatched === data.workspace.name;
 
+  const queryClient = useQueryClient();
+
   const onSubmit = async (data: z.infer<typeof WorkspaceNameSchema>) => {
     try {
-      console.log(data);
+      setIsPending(true);
+
+      const res = await updateWorkspace(data, workspace_slug);
+      if (res.success) {
+        queryClient.invalidateQueries({
+          queryKey: ["workspace", workspace_slug],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["workspaces"],
+        });
+        toast.success("Workspace name updated successfully.");
+        form.reset({ name: res.workspace.name });
+      } else {
+        toast.error(res.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error("Failed to update workspace name.");
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -82,8 +108,15 @@ const WorkspaceNameInput = () => {
               Max 32 characters.
             </span>
 
-            <Button type="submit" disabled={isDisabled || !nameWatched}>
-              Save Changes
+            <Button
+              type="submit"
+              disabled={isDisabled || !nameWatched || isPending}
+              className="cursor-pointer">
+              {isPending ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                "Save Changes"
+              )}
             </Button>
           </div>
         </form>

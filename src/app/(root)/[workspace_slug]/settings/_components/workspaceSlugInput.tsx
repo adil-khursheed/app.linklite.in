@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import WorkspaceSettingsCard from "./workspaceSettingsCard";
 import {
@@ -12,12 +12,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useParams } from "next/navigation";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useParams, useRouter } from "next/navigation";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { getWorkspaceBySlug } from "@/app/(root)/_actions/getWorkspaces";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { updateWorkspace } from "../_actions/updateWorkspace";
+import { Loader2Icon } from "lucide-react";
 
 const WorkspaceSlugSchema = z.object({
   slug: z
@@ -28,6 +30,9 @@ const WorkspaceSlugSchema = z.object({
 });
 
 const WorkspaceSlugInput = () => {
+  const [isPending, setIsPending] = useState(false);
+
+  const router = useRouter();
   const params = useParams<{ workspace_slug: string }>();
   const { workspace_slug } = params;
 
@@ -49,12 +54,31 @@ const WorkspaceSlugInput = () => {
   const slugWatched = form.watch("slug");
   const isDisabled = slugWatched === data.workspace.slug;
 
+  const queryClient = useQueryClient();
+
   const onSubmit = async (data: z.infer<typeof WorkspaceSlugSchema>) => {
     try {
-      console.log(data);
+      setIsPending(true);
+
+      const res = await updateWorkspace(data, workspace_slug);
+      if (res.success) {
+        router.replace(`/${res.workspace.slug}/settings`);
+        toast.success("Workspace slug updated successfully.");
+        form.reset({ slug: res.workspace.slug });
+        queryClient.invalidateQueries({
+          queryKey: ["workspaces"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["workspace", res.workspace.slug],
+        });
+      } else {
+        toast.error(res.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error("Workspace slug update failed");
+    } finally {
+      setIsPending(false);
     }
   };
   return (
@@ -85,8 +109,15 @@ const WorkspaceSlugInput = () => {
               Only lowercase letters, numbers and dashes. Max 48 characters.
             </span>
 
-            <Button type="submit" disabled={isDisabled || !slugWatched}>
-              Save Changes
+            <Button
+              type="submit"
+              disabled={isDisabled || !slugWatched || isPending}
+              className="cursor-pointer">
+              {isPending ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                "Save Changes"
+              )}
             </Button>
           </div>
         </form>
