@@ -1,6 +1,6 @@
 "use client";
 
-import { getWorkspaceBySlug } from "@/app/(root)/_actions/getWorkspaces";
+import { getWorkspaceBySlug } from "@/_actions/getWorkspaces";
 import { Button } from "@/components/ui/button";
 
 import {

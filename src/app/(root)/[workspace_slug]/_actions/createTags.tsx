@@ -11,10 +11,9 @@ export const createTag = async ({
   workspace_slug: string;
 }) => {
   try {
-    const res = await kyInstance.post("api/v1/tags/create", {
+    const res = await kyInstance.post(`api/v1/tags/create/${workspace_slug}`, {
       json: {
         name,
-        workspace_slug,
       },
     });
 

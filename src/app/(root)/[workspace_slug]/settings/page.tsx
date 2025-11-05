@@ -6,12 +6,12 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-import { getWorkspaceBySlug } from "../../_actions/getWorkspaces";
 import WorkspaceNameInput from "./_components/workspaceNameInput";
 import WorkspaceSlugInput from "./_components/workspaceSlugInput";
 import DeleteWorkspace from "./_components/deleteWorkspace";
 import Container from "@/components/ui/container";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { getWorkspaceBySlug } from "@/_actions/getWorkspaces";
 
 export const metadata: Metadata = {
   title: "General Settings",

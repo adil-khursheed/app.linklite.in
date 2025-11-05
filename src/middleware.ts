@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
   } else if (access_token && pathname === "/") {
     const { user } = await getUser();
 
-    if (user?.onboarded) {
+    if (user.default_workspace) {
       return NextResponse.redirect(
         new URL(`/${user.default_workspace}/links`, req.url)
       );
@@ -91,7 +91,7 @@ export async function middleware(req: NextRequest) {
   if (hasAccessToken && isPublicPath) {
     const { user } = await getUser();
 
-    if (user?.onboarded) {
+    if (user.default_workspace) {
       return NextResponse.redirect(
         new URL(`/${user.default_workspace}/links`, req.url)
       );

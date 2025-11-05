@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { getWorkspaceBySlug } from "@/app/(root)/_actions/getWorkspaces";
+import { getWorkspaceBySlug } from "@/_actions/getWorkspaces";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -67,9 +67,6 @@ const WorkspaceSlugInput = () => {
         form.reset({ slug: res.workspace.slug });
         queryClient.invalidateQueries({
           queryKey: ["workspaces"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["workspace", res.workspace.slug],
         });
       } else {
         toast.error(res.message);

@@ -11,9 +11,9 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getAllWorkspaces } from "../_actions/getWorkspaces";
 import AppSidebarContent from "./AppSidebarContent";
 import AppWorkspaceButton from "./AppWorkspaceButton";
+import { getAllWorkspaces } from "@/_actions/getWorkspaces";
 
 const AppSidebar = async () => {
   const queryClient = new QueryClient();

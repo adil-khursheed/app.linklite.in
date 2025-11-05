@@ -6,10 +6,6 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import {
-  getAllWorkspaces,
-  getWorkspaceBySlug,
-} from "../_actions/getWorkspaces";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -22,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { CheckIcon, SettingsIcon, UserPlusIcon } from "lucide-react";
 import WorkspaceDialog from "./WorkspaceDialog";
+import { getAllWorkspaces, getWorkspaceBySlug } from "@/_actions/getWorkspaces";
 
 const AppWorkspaceButton = () => {
   const [open, setOpen] = useState(false);

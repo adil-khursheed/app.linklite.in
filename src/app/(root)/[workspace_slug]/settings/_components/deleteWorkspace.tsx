@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { deleteWorkspace } from "../_actions/deleteWorkspace";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2Icon } from "lucide-react";
 
 const DeleteWorkspaceSchema = z.object({
   slug: z.string().min(1, "This field is required"),
@@ -31,8 +35,12 @@ const DeleteWorkspaceSchema = z.object({
 });
 
 const DeleteWorkspace = () => {
+  const router = useRouter();
   const { workspace_slug } = useParams<{ workspace_slug: string }>();
+
   const confirm_text = "confirm delete workspace";
+
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof DeleteWorkspaceSchema>>({
     resolver: zodResolver(DeleteWorkspaceSchema),
@@ -41,6 +49,39 @@ const DeleteWorkspace = () => {
       confirm: "",
     },
   });
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => deleteWorkspace(workspace_slug),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      toast.success("Workspace deleted successfully");
+      router.replace("/");
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof DeleteWorkspaceSchema>) => {
+    try {
+      if (data.slug !== workspace_slug) {
+        form.setError("slug", {
+          message: "Workspace slug does not match",
+        });
+        return;
+      }
+
+      if (data.confirm !== confirm_text) {
+        form.setError("confirm", {
+          message: "Confirmation text does not match",
+        });
+        return;
+      }
+
+      await mutateAsync();
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Workspace deletion failed"
+      );
+    }
+  };
 
   return (
     <WorkspaceSettingsCard
@@ -64,7 +105,9 @@ const DeleteWorkspace = () => {
 
             <div className="bg-muted/20 p-6">
               <Form {...form}>
-                <form className="space-y-5">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-5">
                   <FormField
                     control={form.control}
                     name="slug"
@@ -99,8 +142,15 @@ const DeleteWorkspace = () => {
                     )}
                   />
 
-                  <Button variant={"destructive"} className="w-full">
-                    Confirm Delete Workspace
+                  <Button
+                    variant={"destructive"}
+                    disabled={isPending}
+                    className="w-full">
+                    {isPending ? (
+                      <Loader2Icon className="animate-spin" />
+                    ) : (
+                      "Confirm Delete Workspace"
+                    )}
                   </Button>
                 </form>
               </Form>

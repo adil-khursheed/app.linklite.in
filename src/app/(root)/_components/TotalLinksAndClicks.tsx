@@ -1,12 +1,13 @@
 "use client";
 
+import React from "react";
+import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { LinkIcon, MousePointerClickIcon } from "lucide-react";
-import React from "react";
-import { getWorkspaceBySlug } from "../_actions/getWorkspaces";
-import { SlidingNumber } from "@/components/ui/sliding-number";
+
 import { formatCompactNumber } from "@/lib/utils";
-import { useParams } from "next/navigation";
+import { SlidingNumber } from "@/components/ui/sliding-number";
+import { getWorkspaceBySlug } from "@/_actions/getWorkspaces";
 
 const TotalLinksAndClicks = () => {
   const params = useParams<{ workspace_slug?: string }>();

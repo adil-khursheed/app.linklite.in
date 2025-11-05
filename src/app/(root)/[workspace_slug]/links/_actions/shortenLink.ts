@@ -28,13 +28,12 @@ export const shortenLink = async ({
   tags,
 }: IShortenLinkProps) => {
   try {
-    const res = await kyInstance.post("api/v1/urls/create", {
+    const res = await kyInstance.post(`api/v1/urls/create/${workspace_slug}`, {
       json: {
         destination_url,
         domain,
         short_link_id,
         url_metadata,
-        workspace_slug,
         comment,
         tags,
       },
