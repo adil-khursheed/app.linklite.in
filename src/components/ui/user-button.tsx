@@ -1,7 +1,8 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "./logout-button";
+
 import { useAuthStore } from "@/store/auth";
 
 const UserButton = () => {
@@ -20,22 +22,25 @@ const UserButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="relative size-9 rounded-full cursor-pointer shadow">
-          <Avatar className="size-9">
+        <Button variant="ghost" className="cursor-pointer">
+          <Avatar>
             <AvatarImage src={user?.avatar.url ?? undefined} />
-            <AvatarFallback className="bg-p-primary-light hover:bg-p-primary-light/90 text-s-secondary font-bold text-sm">
+            <AvatarFallback className="bg-card border-border border text-sm font-bold shadow">
               {user?.display_name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
+
+          <div className="sr-only flex flex-col items-start sm:not-sr-only">
+            <span className="text-sm font-medium">{user?.display_name}</span>
+            <span className="text-xs">{user?.email}</span>
+          </div>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel className="flex items-center gap-2">
           <Avatar className="size-10 shadow">
             <AvatarImage src={user?.avatar.url ?? undefined} />
-            <AvatarFallback className="bg-p-primary-light hover:bg-p-primary-light/90 text-s-secondary font-bold text-sm">
+            <AvatarFallback className="bg-p-primary-light hover:bg-p-primary-light/90 text-s-secondary text-sm font-bold">
               {user?.display_name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>

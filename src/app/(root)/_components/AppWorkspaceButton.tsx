@@ -15,8 +15,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useSidebar } from "@/components/ui/sidebar";
-import { CheckIcon, SettingsIcon, UserPlusIcon } from "lucide-react";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import {
+  CheckIcon,
+  ChevronsUpDownIcon,
+  SettingsIcon,
+  UserPlusIcon,
+} from "lucide-react";
 import WorkspaceDialog from "./WorkspaceDialog";
 import { getAllWorkspaces, getWorkspaceBySlug } from "@/_actions/getWorkspaces";
 
@@ -39,34 +49,17 @@ const AppWorkspaceButton = () => {
   });
 
   return (
-    <>
-      {params && params.workspace_slug && (
-        <DropdownMenu open={open} onOpenChange={setOpen}>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant={"ghost"}
-              size={"icon"}
-              className="size-10 flex justify-center items-center rounded-full shadow cursor-pointer">
-              <Avatar>
-                <AvatarImage src={workspace?.workspace.logo.url ?? undefined} />
-                <AvatarFallback className="capitalize bg-transparent text-lg font-semibold">
-                  {workspace?.workspace.name.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent
-            side={isMobile ? "bottom" : "right"}
-            align={isMobile ? "end" : "start"}
-            className="min-w-56 rounded-lg">
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="size-9 rounded-lg">
+    <SidebarMenu>
+      <SidebarMenuItem>
+        {params && params.workspace_slug ? (
+          <DropdownMenu open={open} onOpenChange={setOpen}>
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton size={"lg"} className="cursor-pointer">
+                <Avatar className="bg-primary rounded-[10px]">
                   <AvatarImage
                     src={workspace?.workspace.logo.url ?? undefined}
                   />
-                  <AvatarFallback className="rounded-lg capitalize">
+                  <AvatarFallback className="bg-transparent text-lg font-semibold text-neutral-100 capitalize">
                     {workspace?.workspace.name.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
@@ -78,54 +71,34 @@ const AppWorkspaceButton = () => {
                     {workspace?.workspace.plan}
                   </span>
                 </div>
-              </div>
-            </DropdownMenuLabel>
+                <ChevronsUpDownIcon className="ml-auto" />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
 
-            <DropdownMenuGroup>
-              <DropdownMenuItem className="px-0">
-                <Button
-                  asChild
-                  variant={"ghost"}
-                  className="hover:bg-transparent w-full justify-start">
-                  <Link
-                    href={`/${params.workspace_slug}/settings`}
-                    onClick={() => setOpen(false)}>
-                    <SettingsIcon />
-                    <span>Settings</span>
-                  </Link>
-                </Button>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="px-0">
-                <Button
-                  asChild
-                  variant={"ghost"}
-                  className="hover:bg-transparent w-full justify-start">
-                  <Link
-                    href={`/${params.workspace_slug}/settings/people`}
-                    onClick={() => setOpen(false)}>
-                    <UserPlusIcon />
-                    <span>Invite Members</span>
-                  </Link>
-                </Button>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="text-xs">
+            <DropdownMenuContent
+              side={isMobile ? "bottom" : "right"}
+              align={isMobile ? "end" : "start"}
+              sideOffset={4}
+              className="min-w-56 rounded-lg"
+            >
+              <DropdownMenuLabel className="text-muted-foreground text-xs">
                 Workspaces
               </DropdownMenuLabel>
+
               {workspaces.workspaces.length > 0
                 ? workspaces.workspaces.map((item) => (
                     <DropdownMenuItem key={item._id} className="px-0">
                       <Button
                         asChild
                         variant={"ghost"}
-                        className="hover:bg-transparent w-full justify-start">
+                        className="w-full justify-start hover:bg-transparent"
+                      >
                         <Link
                           href={`/${item.slug}/links`}
                           onClick={() => setOpen(false)}
-                          className="flex items-center justify-between w-full">
-                          <span className="flex items-center gap-2 flex-1">
+                          className="flex w-full items-center justify-between"
+                        >
+                          <span className="flex flex-1 items-center gap-2">
                             <Avatar className="size-7 rounded-full">
                               <AvatarImage src={item.logo.url ?? undefined} />
                               <AvatarFallback className="rounded-full capitalize">
@@ -140,15 +113,17 @@ const AppWorkspaceButton = () => {
                     </DropdownMenuItem>
                   ))
                 : null}
-            </DropdownMenuGroup>
 
-            <DropdownMenuGroup>
+              <DropdownMenuSeparator />
+
               <WorkspaceDialog />
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
-    </>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <span>No Workspace</span>
+        )}
+      </SidebarMenuItem>
+    </SidebarMenu>
   );
 };
 

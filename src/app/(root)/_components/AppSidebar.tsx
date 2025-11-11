@@ -1,11 +1,16 @@
 import React, { Suspense } from "react";
 
-import { Sidebar } from "@/components/ui/sidebar";
-
-import Link from "next/link";
-import { LinkIcon } from "lucide-react";
-import UserButton from "./UserButton";
-import { Button } from "@/components/ui/button";
+import {
+  Sidebar,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 import {
   dehydrate,
   HydrationBoundary,
@@ -14,8 +19,14 @@ import {
 import AppSidebarContent from "./AppSidebarContent";
 import AppWorkspaceButton from "./AppWorkspaceButton";
 import { getAllWorkspaces } from "@/_actions/getWorkspaces";
+import TotalLinksAndClicks from "./TotalLinksAndClicks";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { CogIcon, UserPlusIcon } from "lucide-react";
 
-const AppSidebar = async () => {
+const AppSidebar = async ({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) => {
   const queryClient = new QueryClient();
 
   await Promise.all([
@@ -27,35 +38,52 @@ const AppSidebar = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Sidebar className="mr-2 group-data-[side=left]:border-0">
-        <div className="flex h-full">
-          <div className="w-16 flex flex-col items-center justify-between my-2">
-            <div className="gap-y-5 flex flex-col items-center">
-              <Button
-                asChild
-                variant={"ghost"}
-                size={"icon"}
-                className="size-12 flex justify-center items-center rounded-full shadow text-primary hover:text-primary">
-                <Link href="/">
-                  <LinkIcon className="size-5" />
-                  <span className="sr-only">LinkLite</span>
-                </Link>
-              </Button>
+      <Sidebar {...props} className="group-data-[side=left]:border-0">
+        <SidebarHeader>
+          <Suspense fallback={null}>
+            <AppWorkspaceButton />
+          </Suspense>
+        </SidebarHeader>
 
+        <AppSidebarContent />
+
+        <SidebarFooter>
+          <SidebarGroup className="py-0">
+            <SidebarGroupLabel>General Settings</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/settings">
+                      <CogIcon />
+                      <span>Settings</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/settings/people">
+                      <UserPlusIcon />
+                      <span>Invite People</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup className="py-0">
+            <SidebarGroupLabel>Usage</SidebarGroupLabel>
+            <SidebarGroupContent>
               <Suspense fallback={null}>
-                <AppWorkspaceButton />
+                <TotalLinksAndClicks />
               </Suspense>
-            </div>
 
-            <div className="flex items-center justify-center">
-              <UserButton />
-            </div>
-          </div>
-
-          <div className="flex-1 bg-secondary rounded-md shadow border border-border my-2 px-1.5 overflow-hidden">
-            <AppSidebarContent />
-          </div>
-        </div>
+              <Button className="w-full">Upgrade Plan</Button>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarFooter>
       </Sidebar>
     </HydrationBoundary>
   );

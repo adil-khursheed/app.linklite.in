@@ -11,9 +11,10 @@ const Container = ({
   return (
     <section
       className={cn(
-        "px-3 py-5 sm:p-5 bg-background rounded-md h-[calc(100vh-16px)] shadow border border-border overflow-y-auto",
-        className
-      )}>
+        "bg-background border-border h-full w-full overflow-y-auto rounded-2xl border px-3 py-5 shadow sm:p-5",
+        className,
+      )}
+    >
       {children}
     </section>
   );

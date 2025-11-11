@@ -36,44 +36,30 @@ const AppSidebarContent = () => {
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -100, opacity: 0 }}
-          className="h-full flex flex-col">
-          <SidebarHeader className="font-semibold text-base">
-            Short Links
-          </SidebarHeader>
+          className="flex h-full flex-col"
+        >
           <SidebarContent>
-            <SidebarGroup className="px-0">
+            <SidebarGroup className="py-0">
+              <SidebarGroupLabel>Short Links</SidebarGroupLabel>
               <SidebarGroupContent>
                 <AppSidebarMenu items={shortLinksMenuItems} />
               </SidebarGroupContent>
             </SidebarGroup>
 
-            <SidebarGroup className="px-0">
+            <SidebarGroup className="py-0">
               <SidebarGroupLabel>Insights</SidebarGroupLabel>
               <SidebarGroupContent>
                 <AppSidebarMenu items={insightsMenuItems} />
               </SidebarGroupContent>
             </SidebarGroup>
 
-            <SidebarGroup className="px-0">
+            <SidebarGroup className="py-0">
               <SidebarGroupLabel>Library</SidebarGroupLabel>
               <SidebarGroupContent>
                 <AppSidebarMenu items={libraryMenuItems} />
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
-
-          <SidebarFooter className="mt-auto">
-            <SidebarGroup className="px-0">
-              <SidebarGroupLabel className="px-0">Usage</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <Suspense fallback={null}>
-                  <TotalLinksAndClicks />
-                </Suspense>
-
-                <Button className="w-full">Upgrade Plan</Button>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarFooter>
         </motion.div>
       ) : params.workspace_slug &&
         pathname.startsWith(`/${params.workspace_slug}/settings`) ? (
@@ -82,12 +68,14 @@ const AppSidebarContent = () => {
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 100, opacity: 0 }}
-          className="h-full flex flex-col">
+          className="flex h-full flex-col"
+        >
           <SidebarHeader>
             <Button
               asChild
               variant={"ghost"}
-              className="w-full justify-start text-base font-semibold">
+              className="w-full justify-start text-base font-semibold"
+            >
               <Link href={`/${params.workspace_slug}/links`}>
                 <ChevronLeft size={16} />
                 <span>Settings</span>
@@ -95,7 +83,7 @@ const AppSidebarContent = () => {
             </Button>
           </SidebarHeader>
           <SidebarContent>
-            <SidebarGroup className="px-0">
+            <SidebarGroup>
               <SidebarGroupLabel>Workspace</SidebarGroupLabel>
               <SidebarGroupContent>
                 <AppSidebarMenu items={workspaceSettingsMenuItems} />

@@ -42,12 +42,10 @@ const Page = async ({
       <Suspense>
         <CreateLinkDialogProvider>
           <Container>
-            <div className="max-w-6xl w-full h-full mx-auto flex flex-col gap-y-4">
+            <div className="mx-auto flex h-full w-full max-w-6xl flex-col gap-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <SidebarTrigger className="cursor-pointer md:hidden" />
-
-                  <h2 className="text-xl sm:text-2xl font-bold">
+                  <h2 className="text-xl font-bold sm:text-2xl">
                     Bridge For Your Connections
                   </h2>
                 </div>
@@ -55,7 +53,7 @@ const Page = async ({
                 <CreateLinksButton />
               </div>
 
-              <div className="flex-1 border border-border rounded-sm overflow-hidden">
+              <div className="border-border flex-1 overflow-hidden rounded-sm border">
                 <LinksList />
               </div>
             </div>
