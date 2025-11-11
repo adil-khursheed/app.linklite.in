@@ -1,28 +1,27 @@
 import React, { Suspense } from "react";
 
 import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+
+import {
   Sidebar,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+
 import AppSidebarContent from "./AppSidebarContent";
 import AppWorkspaceButton from "./AppWorkspaceButton";
-import { getAllWorkspaces } from "@/_actions/getWorkspaces";
 import TotalLinksAndClicks from "./TotalLinksAndClicks";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { CogIcon, UserPlusIcon } from "lucide-react";
+import AppGeneralSettingsMenu from "./AppGeneralSettingsMenu";
+
+import { getAllWorkspaces } from "@/_actions/getWorkspaces";
 
 const AppSidebar = async ({
   ...props
@@ -48,30 +47,9 @@ const AppSidebar = async ({
         <AppSidebarContent />
 
         <SidebarFooter>
-          <SidebarGroup className="py-0">
-            <SidebarGroupLabel>General Settings</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link href="/settings">
-                      <CogIcon />
-                      <span>Settings</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link href="/settings/people">
-                      <UserPlusIcon />
-                      <span>Invite People</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
+          <Suspense>
+            <AppGeneralSettingsMenu />
+          </Suspense>
 
           <SidebarGroup className="py-0">
             <SidebarGroupLabel>Usage</SidebarGroupLabel>

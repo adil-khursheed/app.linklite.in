@@ -42,7 +42,7 @@ const Page = async ({
       <Suspense>
         <CreateLinkDialogProvider>
           <Container>
-            <div className="mx-auto flex h-full w-full max-w-6xl flex-col gap-y-4">
+            <div className="flex h-full w-full flex-col gap-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <h2 className="text-xl font-bold sm:text-2xl">

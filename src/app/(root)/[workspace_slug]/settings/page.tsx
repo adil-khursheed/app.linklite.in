@@ -33,10 +33,7 @@ const Page = async ({
 
   return (
     <Container className="px-1 md:px-3">
-      <div className="max-w-6xl mx-auto w-full px-3 space-y-5">
-        <div className="md:hidden">
-          <SidebarTrigger />
-        </div>
+      <div className="mx-auto h-full w-full max-w-6xl space-y-5 px-3">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense>
             <WorkspaceNameInput />

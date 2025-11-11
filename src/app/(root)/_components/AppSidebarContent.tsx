@@ -1,27 +1,30 @@
 "use client";
 
+import React from "react";
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
+
+import { AnimatePresence, motion } from "motion/react";
+
+import { ChevronLeft } from "lucide-react";
+
 import {
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { useParams, usePathname } from "next/navigation";
-import React, { Suspense } from "react";
+import { Button } from "@/components/ui/button";
+
 import AppSidebarMenu from "./AppSidebarMenu";
+
 import {
   insightsMenuItems,
   libraryMenuItems,
   shortLinksMenuItems,
   workspaceSettingsMenuItems,
 } from "@/lib/constants";
-import TotalLinksAndClicks from "./TotalLinksAndClicks";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 
 const AppSidebarContent = () => {
   const pathname = usePathname();
@@ -36,24 +39,24 @@ const AppSidebarContent = () => {
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -100, opacity: 0 }}
-          className="flex h-full flex-col"
+          className="flex flex-1 flex-col overflow-y-auto [scrollbar-width:thin]"
         >
           <SidebarContent>
-            <SidebarGroup className="py-0">
+            <SidebarGroup>
               <SidebarGroupLabel>Short Links</SidebarGroupLabel>
               <SidebarGroupContent>
                 <AppSidebarMenu items={shortLinksMenuItems} />
               </SidebarGroupContent>
             </SidebarGroup>
 
-            <SidebarGroup className="py-0">
+            <SidebarGroup>
               <SidebarGroupLabel>Insights</SidebarGroupLabel>
               <SidebarGroupContent>
                 <AppSidebarMenu items={insightsMenuItems} />
               </SidebarGroupContent>
             </SidebarGroup>
 
-            <SidebarGroup className="py-0">
+            <SidebarGroup>
               <SidebarGroupLabel>Library</SidebarGroupLabel>
               <SidebarGroupContent>
                 <AppSidebarMenu items={libraryMenuItems} />
@@ -68,7 +71,7 @@ const AppSidebarContent = () => {
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 100, opacity: 0 }}
-          className="flex h-full flex-col"
+          className="flex flex-1 flex-col overflow-y-auto [scrollbar-width:thin]"
         >
           <SidebarHeader>
             <Button
