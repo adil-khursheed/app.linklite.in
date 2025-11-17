@@ -1,26 +1,77 @@
-import React from "react";
-import Container from "@/components/ui/container";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import React, { Suspense } from "react";
+import type { Metadata } from "next";
+import { ErrorBoundary } from "react-error-boundary";
+
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+
+import { Loader2Icon } from "lucide-react";
+
 import { InviteMemberDialogProvider } from "@/contexts/inviteMemberDialogContext";
+
+import Container from "@/components/ui/container";
 import InviteMembersButton from "./_components/InviteMembersButton";
+import MembersList from "./_components/MembersList";
 
-const Page = () => {
+import { getWorkspaceMembers } from "./_actions/getWorkspaceMembers";
+
+export const metadata: Metadata = {
+  title: "Members",
+};
+
+const Page = async ({
+  params,
+}: {
+  params: Promise<{ workspace_slug: string }>;
+}) => {
+  const { workspace_slug } = await params;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["team-members", workspace_slug],
+    queryFn: () => getWorkspaceMembers(workspace_slug),
+  });
+
   return (
-    <InviteMemberDialogProvider>
-      <Container>
-        <div className="flex h-full w-full flex-col gap-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <SidebarTrigger className="cursor-pointer md:hidden" />
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <InviteMemberDialogProvider>
+        <Container>
+          <div className="flex h-full w-full flex-col gap-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold sm:text-2xl">Team Members</h2>
+              </div>
 
-              <h2 className="text-xl font-bold sm:text-2xl">Team Members</h2>
+              <InviteMembersButton />
             </div>
 
-            <InviteMembersButton />
+            <ErrorBoundary
+              fallback={
+                <div className="flex flex-1 items-center justify-center">
+                  <span className="text-muted-foreground text-center text-sm font-medium">
+                    Something went wrong!
+                  </span>
+                </div>
+              }
+            >
+              <Suspense
+                fallback={
+                  <div className="flex flex-1 items-center justify-center">
+                    <Loader2Icon className="text-muted-foreground size-10 animate-spin" />
+                  </div>
+                }
+              >
+                <MembersList />
+              </Suspense>
+            </ErrorBoundary>
           </div>
-        </div>
-      </Container>
-    </InviteMemberDialogProvider>
+        </Container>
+      </InviteMemberDialogProvider>
+    </HydrationBoundary>
   );
 };
 

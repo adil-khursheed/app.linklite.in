@@ -117,3 +117,42 @@ type TTag = {
   created_at: string;
   updated_at: string;
 };
+
+type Permission =
+  // workspace permissions
+  | "ws:update"
+  | "ws:delete"
+  | "ws:manage_billing"
+  | "ws:view_settings"
+
+  // member permissions
+  | "ws:members:invite"
+  | "ws:members:remove"
+  | "ws:members:update_role"
+  | "ws:members:view"
+
+  // link permissions
+  | "ws:links:create"
+  | "ws:links:update"
+  | "ws:links:delete"
+  | "ws:links:view"
+  | "ws:links:delete"
+
+  // tags permissions
+  | "ws:tags:create"
+  | "ws:tags:update"
+  | "ws:tags:delete"
+  | "ws:tags:view";
+
+type Role = "ws:owner" | "ws:admin" | "ws:member";
+
+type TWorkspaceMembership = {
+  _id: string;
+  workspace_id: string;
+  user_id: string;
+  user: Pick<UserInfo, "_id" | "display_name" | "email" | "avatar">;
+  role: Role;
+  permissions: Permission[];
+  created_at: string;
+  updated_at: string;
+};
